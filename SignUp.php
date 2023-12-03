@@ -24,7 +24,7 @@
     $gradeEmail = mysqli_query($con,$InsertEmailToGrades);
     
 
-    $search = "SELECT * FROM `kids` WHERE `kids`.`Email`= '$userEmail'";
+    $search = "SELECT * FROM kids WHERE Email= '$userEmail'";
     $searchEmailResult = mysqli_query($con,$search);
 
     if($result && $gradeEmail)
