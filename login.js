@@ -27,7 +27,7 @@ export default class Login extends Component {
     }
     
      else {
-      fetch('http://192.168.8.177:80/login_api/login_new.php', {
+      fetch('http://IP/login_api/login_new.php', {
         method: 'post',
         header: {
           Accept: 'application/json',
