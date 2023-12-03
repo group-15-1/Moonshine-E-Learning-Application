@@ -1,6 +1,6 @@
 <?php
     $con=mysqli_connect("localhost","root","");
-    $db=mysqli_select_db($con,"moonshin");
+    $db=mysqli_select_db($con,"moonshine");
     
     //Encoding data get the react native user input values to the json format
     $EncodeData=file_get_contents('php://input');
