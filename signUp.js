@@ -35,7 +35,7 @@ const SignUpPage = (props) => {
           Password:Password,
           ConfirmPassword:ConfirmPassword,
         }
-        let response = await fetch("http://192.168.8.177:80/API/signUp.php", {
+        let response = await fetch("http://IP:80/API/signUp.php", {
           method: "POST",
           headers: {
             'Accept': 'application/json',
@@ -44,7 +44,7 @@ const SignUpPage = (props) => {
           body: JSON.stringify(Data),
         });
         let responseJson = await response.json();
-        if (responseJson === [["Student has been registered sucsessfuly"]]) {
+        if (responseJson == [["Student has been registered sucsessfuly"]]) {
           Alert.alert("Sign Up Successful!");
         }
         else {
