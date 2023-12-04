@@ -64,7 +64,39 @@ function FormList(props) {
 
     }
 
-   
+    // connection to the database using php
+    else {
+      fetch('http://IP Address/Moonshine/Login.php', {
+        method: 'post',
+        header: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          // This will pass our input data to server
+          email: email,
+          password: password,
+        }),
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          if (responseJson == "ok") {
+            Alert.alert("Login sucsess");
+            props.navigation.navigate('dashboard')
+          }
+          else if (responseJson == "No account yet") {
+            Alert.alert("No account. Plese create a new account")
+          }
+
+          else {
+            Alert.alert("wrong details")
+            console.log(responseJson)
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
 
     if (emailValid && passwordValid) {
 
