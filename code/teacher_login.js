@@ -45,7 +45,8 @@ function FormList(props) {
     }
 
     var passwordValid = false;
-
+    
+   
     if (password.length == 0) {
 
       setPasswordError("Password is required");
@@ -64,7 +65,52 @@ function FormList(props) {
 
     }
 
-   
+else {
+    setEmailError("")
+    emailValid = true
+  }
+  var passwordValid = false;
+  if (password.length == 0) {
+    setPasswordError("Password is required");
+  }
+  else if (password.length < 6) {
+    setPasswordError("Password should be minimum 6 characters");
+  }
+  else if (password.indexOf(' ') >= 0) {
+    setPasswordError('Password cannot contain spaces');
+  }
+  // connection to the database using php
+  else {
+    fetch('http://IP/Moonshine/TeacherLogin.php', {
+      method: 'post',
+      header: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        // This will pass our input data to server
+        email: email,
+        password: password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson == "ok"){
+          Alert.alert("Login sucsess");
+          props.navigation.navigate('teacherDashboard')
+        }
+                    
+        else if(responseJson == "No account yet"){
+          Alert.alert("No account. Plese create a new account")
+        }        
+        else{
+          Alert.alert("wrong details")
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
     if (emailValid && passwordValid) {
 
