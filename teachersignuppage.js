@@ -31,6 +31,54 @@ export default function App(props) {
 
   const [ConfirmPassword, setConfirmPassword] = useState("");
 
+const handleSignUp = () => {
+    let emailName = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.com)+$/;
+    let nameData = /^[A-Za-z]+$/;
+
+    if (Name.length == 0 || Email.length == 0 || Password.length == 0 || ConfirmPassword.length == 0) {
+      Alert.alert("Required field/s missing");
+    }
+    else if (Password.length < 6) {
+      Alert.alert("The password should contain more than 6 characters");
+    }
+    else if (Password !== ConfirmPassword) {
+      Alert.alert("Check the confirm password again");
+    }
+    else if (!emailName.test(Email)) {
+      Alert.alert("Email is not in a valid format");
+    }
+    else if (!nameData.test(Name)) {
+      Alert.alert("Enter your Name");
+    }
+
+    else {
+      fetch('http://IP/Moonshine/TeacherSignUp.php', {
+        method: 'post',
+        header: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          // This will pass our input data to server
+          Name: Name,
+          Email: Email,
+          Password: Password,
+        }),
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          if (responseJson == "Teacher has been registered sucsessfuly") {
+            props.navigation.navigate('signUpSucsess');
+          }
+          else {
+            Alert.alert("Sign Up Failed. Please try again.");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }
 
   return (
 
@@ -93,7 +141,7 @@ export default function App(props) {
 
        
 
-      <TouchableOpacity style={styles.signBtn}>
+      <TouchableOpacity style={styles.signBtn} onPress={handleSignUp}>
 
         <Text style={styles.loginText}>Sign up</Text>
 
