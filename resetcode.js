@@ -24,9 +24,45 @@ export default function App(props) {
 
 
   const [password, setPassword] = useState("");
+ const [findEmail, setFindEmail] = useState("");
+ const [ConfirmPassword, setConfirmPassword] = useState("");
 
- 
+ const updatePassword = () =>{
+    if(findEmail ==0 || password == 0){
+       Alert.alert("Required fields missing");
+    }
+    else if(ConfirmPassword != password){
+      Alert.alert("Check Confirm Password Again");
+    }
+    else {
+      fetch('http://IPAddress/Moonshine/ResetPassword.php', {
+        method: 'post',
+        header: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          // This will pass our input data to server
+          findEmail: findEmail,
+          password: password,
+        }),
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          if (responseJson == "Student's Password Updated") {
+            props.navigation.navigate('resetPassword2');
+          }
+          
+          else {
+            Alert.alert("Please try again.");
+          }
 
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }
   return (
 
     <View style={styles.container}>
@@ -53,7 +89,7 @@ export default function App(props) {
 
           textAlign="center"
 
-          
+          onChangeText={(findEmail) => setFindEmail(findEmail)}
 
         /> 
 
@@ -93,7 +129,7 @@ export default function App(props) {
 
           secureTextEntry={true}
 
-          onChangeText={(password) => setPassword(password)}
+          onChangeText={(ConfirmPassword) => setPassword(ConfirmPassword)}
 
         /> 
 
