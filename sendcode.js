@@ -7,7 +7,45 @@ import React, { useState } from "react";
 
 export default function App(props) {
 
+    const [findEmail, setFindEmail] = useState("");
 
+    const updatePassword = ()=>{
+  
+       if(findEmail == 0){
+        Alert.alert("Required Field is missing ");
+       }
+       else {
+        fetch('http://IPAddress/Moonshine/SeachEmailToUpdatePassword.php', {
+          method: 'post',
+          header: {
+            Accept: 'application/json',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            // This will pass our input data to server
+            findEmail: findEmail,
+            
+          }),
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            if (responseJson == "ok") {
+              props.navigation.navigate('resetPassword',{findEmail:findEmail});
+            }
+            else if(responseJson == "No matching Email"){
+              Alert.alert("Please enter a valid Email");
+            }
+          
+            else {
+              Alert.alert("Try Again");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    
+    }
   
 
   return (
@@ -44,7 +82,7 @@ export default function App(props) {
 
             </View>
 
-      <TouchableOpacity style={styles.codeBtn}>
+      <TouchableOpacity style={styles.codeBtn} onPress={updatePassword}>
 
         <Text style={styles.codeText}>Next</Text>
 
